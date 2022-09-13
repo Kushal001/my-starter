@@ -60,7 +60,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "Webpack App",
+      title: "Can - A WebGL Experiment",
       filename: "index.html",
       template: path.resolve(__dirname, "src/index.html"),
       minify: true,
