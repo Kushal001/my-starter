@@ -19,6 +19,7 @@ body {
   color: #000;
 
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 code {
