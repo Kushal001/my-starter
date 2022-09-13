@@ -15,37 +15,20 @@ const canvas = document.querySelector("canvas.webgl")
 // Scene
 const scene = new THREE.Scene()
 
+// Axes Helper
+const axesHelper = new THREE.AxesHelper(3)
+scene.add(axesHelper)
+
 /**
- * Floor
+ * Obj
  */
-const floor = new THREE.Mesh(
-  new THREE.PlaneBufferGeometry(10, 10),
-  new THREE.MeshStandardMaterial({
-    color: "#444444",
-    metalness: 0,
-    roughness: 0.5,
+const object = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({
+    color: "#61ffff",
   })
 )
-floor.receiveShadow = true
-floor.rotation.x = -Math.PI * 0.5
-scene.add(floor)
-
-/**
- * Lights
- */
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.8)
-scene.add(ambientLight)
-
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6)
-directionalLight.castShadow = true
-directionalLight.shadow.mapSize.set(1024, 1024)
-directionalLight.shadow.camera.far = 15
-directionalLight.shadow.camera.left = -7
-directionalLight.shadow.camera.top = 7
-directionalLight.shadow.camera.right = 7
-directionalLight.shadow.camera.bottom = -7
-directionalLight.position.set(5, 5, 5)
-scene.add(directionalLight)
+scene.add(object)
 
 /**
  * Sizes
@@ -79,12 +62,11 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   100
 )
-camera.position.set(2, 2, 2)
+camera.position.set(0, 0, 2)
 scene.add(camera)
 
 // Controls
 const controls = new OrbitControls(camera, canvas)
-controls.target.set(0, 0.75, 0)
 controls.enableDamping = true
 
 /**
@@ -93,8 +75,6 @@ controls.enableDamping = true
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
 })
-renderer.shadowMap.enabled = true
-renderer.shadowMap.type = THREE.PCFSoftShadowMap
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
@@ -102,12 +82,9 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  * Animate
  */
 const clock = new THREE.Clock()
-let previousTime = 0
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime()
-  const deltaTime = elapsedTime - previousTime
-  previousTime = elapsedTime
 
   // Update controls
   controls.update()
